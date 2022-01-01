@@ -1,0 +1,9 @@
+mongoURI="mongoURI"
+jwtSectetKeyValue="SomeSecretValue"
+NODE_ENV="development"
+BACKEND_URL=http://localhost:8888
+
+# Generate api key by going to https://imagekit.io/ Its free.
+IMAGEKIT_PUBLICKEY=IMAGEKIT_PUBLICKEY
+IMAGEKIT_PRIVATEKEY=IMAGEKIT_PRIVATEKEY
+IMAGEKIT_ID=IMAGEKIT_ID
