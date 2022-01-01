@@ -1,0 +1,57 @@
+{
+  "name": "plantbuyshop",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "dateformat": "^4.5.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.2",
+    "express-list-endpoints": "^6.0.0",
+    "express-validator": "^6.14.0",
+    "imagekit": "^3.2.3",
+    "install-peerdeps": "^3.0.3",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb-client-encryption": "^1.2.7",
+    "mongoose": "^6.1.2",
+    "node-mailjet": "^3.3.4",
+    "response-format": "^1.2.0",
+    "serverless-http": "^2.7.0"
+  },
+  "scripts": {
+    "start": "node function/api.js",
+    "dev": "netlify dev",
+    "watch": "npm-watch dev"
+  },
+  "watch": {
+    "dev": {
+      "patterns": [
+        "express",
+        "functions"
+      ],
+      "extensions": "js",
+      "quiet": true
+    }
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-node": "^4.1.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-promise": "^5.1.1",
+    "netlify": "^10.1.0",
+    "npm-watch": "^0.11.0",
+    "prettier": "^2.4.1"
+  }
+}
