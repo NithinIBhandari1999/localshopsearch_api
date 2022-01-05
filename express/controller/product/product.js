@@ -87,6 +87,7 @@ const getKeywordIndex = (keywordArray) => {
 		return keywordIndex;
 
 	} catch (error) {
+		console.error(error);
 		return '';
 	}
 };
@@ -198,12 +199,15 @@ exports.insertOne = async (req, res) => {
 				insert.shopInfo.whatsappNumber,
 			]);
 		} catch (error) {
+			console.log({
+				keywordIndexError: error
+			});
 			console.error(error);
 		}
 
 		console.log({
 			keywordIndex: insert.keywordIndex
-		})
+		});
 
 		const newProduct = await Product.create(insert);
 
