@@ -23,7 +23,8 @@
     "mongoose": "^6.1.2",
     "node-mailjet": "^3.3.4",
     "response-format": "^1.2.0",
-    "serverless-http": "^2.7.0"
+    "serverless-http": "^2.7.0",
+    "validator": "^13.7.0"
   },
   "scripts": {
     "start": "node function/api.js",

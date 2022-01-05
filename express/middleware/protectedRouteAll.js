@@ -1,8 +1,12 @@
+const FormatResponse = require('response-format');
+
 const protectedRoute = async (req, res, next) => {
-    if( req.payload ){
+    if (req.payload) {
         next();
     } else {
-        res.status(401).send({ message: 'unauthorized route' });
+        return res.status(401).json(
+            FormatResponse.unAuthorized('Unauthorized access', {})
+        );
     }
 };
 

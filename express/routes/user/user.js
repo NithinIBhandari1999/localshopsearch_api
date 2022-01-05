@@ -6,8 +6,18 @@ const { getProfileInfo, updateProfileInfo } = require('../../controller/user/use
 const verifyJwt = require('../../middleware/verifyJwt');
 const protectedRouteUser = require('../../middleware/protectedRouteUser');
 
-router.get('/getProfileInfo', verifyJwt, protectedRouteUser, getProfileInfo);
+router.get(
+    '/getProfileInfo',
+    verifyJwt,
+    protectedRouteUser,
+    getProfileInfo
+);
 
-router.post('/updateProfileInfo', verifyJwt, protectedRouteUser, updateProfileInfo);
+router.post(
+    '/updateProfileInfo',
+    verifyJwt,
+    protectedRouteUser,
+    updateProfileInfo
+);
 
 module.exports = router;

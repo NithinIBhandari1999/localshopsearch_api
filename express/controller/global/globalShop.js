@@ -61,51 +61,6 @@ const getAggregateStageSearch = (polygonCoords, query) => {
 			});
 		}
 
-		/*
-		const stage = {
-			'$search': {
-				'index': 'productSearchIndex',
-				'compound': {
-					'must': [
-						{
-							'autocomplete': {
-								'query': 'irt bengaluru',
-								'path': 'keywordIndex',
-								'fuzzy': {
-									'maxEdits': 2,
-									'prefixLength': 3
-								}
-							}
-						},
-						{
-							'geoWithin': {
-								'geometry': {
-									'type': 'Polygon',
-									'coordinates': [
-										[
-											[
-												77.88562538164462, 13.14128147865498
-											], [
-												77.28555297717809, 13.14128147865498
-											], [
-												77.28555297717809, 12.787369255651202
-											], [
-												77.88562538164462, 12.787369255651202
-											], [
-												77.88562538164462, 13.14128147865498
-											]
-										]
-									]
-								},
-								'path': 'shopInfo.geolocation'
-							}
-						}
-					]
-				}
-			}
-		}
-		*/
-
 		return stageSearch;
 
 	} catch (error) {
@@ -133,12 +88,12 @@ exports.searchProduct = async (req, res) => {
 			});
 		}
 
+
+
 		// stage -> Stage to allow only one product
 		pipeline.push({
 			'$group': {
-				'_id': {
-					'shopInfo': '$shopInfo'
-				},
+				'_id': '$shopId',
 				'productList': {
 					'$push': '$$ROOT'
 				}
@@ -152,10 +107,10 @@ exports.searchProduct = async (req, res) => {
 		// stage -> only one product per shop
 		pipeline.push({
 			'$project': {
-				'shopInfo': '$_id.shopInfo',
 				'productInfo': {
 					'$arrayElemAt': [
-						'$productList', 0
+						'$productList',
+						0
 					]
 				}
 			}
@@ -165,10 +120,18 @@ exports.searchProduct = async (req, res) => {
 		pipeline.push({
 			'$project': {
 				'productInfo.keywordIndex': 0,
-				'productInfo.shopInfo': 0,
 				'_id': 0
 			}
 		});
+
+		// stage -> replace root
+		pipeline.push({
+			'$replaceRoot': {
+				'newRoot': '$productInfo'
+			}
+		});
+
+		console.log(JSON.stringify(pipeline));
 
 		const result = await Product.aggregate(pipeline);
 

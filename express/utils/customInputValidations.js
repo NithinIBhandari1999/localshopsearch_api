@@ -1,8 +1,5 @@
 /* eslint-disable no-else-return */
-const isValidEmail = email => {
-  const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return re.test(String(email).toLowerCase());
-};
+var validator = require('validator');
 
 const isValidPhone = phone => {
   const exp = /^[0-9]{6,16}$/;
@@ -46,7 +43,7 @@ const isInputEmailValid = input => {
   if (input.trim() === '') {
     return 'Required Field';
   }
-  if (isValidEmail(input) === false) {
+  if ( validator.isEmail(input) === false) {
     return 'Please enter a valid Email.';
   }
   return '';

@@ -9,6 +9,7 @@ const commonInputReplace = require('../../utils/commonInputReplace');
 
 // Models
 const Shop = require('../../models/shop/Shop');
+const Product = require('../../models/product/Product');
 
 // Desc: Shop -> List
 exports.getAll = async (req, res) => {
@@ -84,6 +85,7 @@ exports.insertOne = async (req, res) => {
 			shopDescription,
 
 			addressFull,
+			countryName,
 			stateName,
 			cityName,
 			localityName,
@@ -91,8 +93,6 @@ exports.insertOne = async (req, res) => {
 
 			phoneNumber,
 			whatsappNumber,
-
-			// uniqueUrl,
 
 			latitude,
 			longitude,
@@ -109,6 +109,7 @@ exports.insertOne = async (req, res) => {
 			shopDescription,
 
 			addressFull,
+			countryName,
 			stateName,
 			cityName,
 			localityName,
@@ -186,7 +187,6 @@ exports.getById = async (req, res) => {
 	}
 };
 
-
 // Desc: Shop -> Delete
 exports.deleteById = async (req, res) => {
 	try {
@@ -233,7 +233,6 @@ exports.updateById = async (req, res) => {
 			shopDescription,
 
 			addressFull,
-			localityName,
 			googleMapEmbedLink,
 
 			phoneNumber,
@@ -256,7 +255,6 @@ exports.updateById = async (req, res) => {
 			shopDescription,
 
 			addressFull,
-			localityName,
 			googleMapEmbedLink,
 
 			phoneNumber,
@@ -285,10 +283,45 @@ exports.updateById = async (req, res) => {
 			new: true
 		});
 
+		console.log({
+			resultShop
+		});
+
+		const shopInfo = {
+			shopName: resultShop.shopName,
+			shopDescription: resultShop.shopDescription,
+
+			geolocation: resultShop.shopName,
+
+			addressFull: resultShop.addressFull,
+			countryName: resultShop.countryName,
+			stateName: resultShop.stateName,
+			cityName: resultShop.cityName,
+			localityName: resultShop.localityName,
+			googleMapEmbedLink: resultShop.shopName,
+
+			phoneNumber: resultShop.phoneNumber,
+			whatsappNumber: resultShop.whatsappNumber,
+
+			uniqueUrl: resultShop.uniqueUrl
+		};
+
+		await Product.updateMany(
+			{
+				userId: new ObjectId(payloadUserId),
+				shopId: new ObjectId(paramsShopId)
+			},
+			{
+				$set: {
+					shopInfo
+				}
+			}
+		);
+
 		return res.status(200).json(FormatResponse.success(
 			'Success',
 			{
-				result: resultShop
+				result: resultShop,
 			}
 		));
 

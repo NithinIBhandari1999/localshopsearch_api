@@ -53,7 +53,7 @@ const getKeywordIndex = (keywordArray) => {
 
 		keywordArray.forEach((item) => {
 			try {
-				keywordIndex = `${keywordIndex}${item.toString()} `;
+				keywordIndex = `${keywordIndex}${item?.toString()} `;
 			} catch (error) {
 				console.error(error);
 			}
@@ -134,7 +134,7 @@ exports.insertOne = async (req, res) => {
 			productUnits,
 			priceMrp,
 			priceSelling,
-			
+
 			imageList
 		} = req.body;
 
@@ -290,14 +290,12 @@ exports.deleteById = async (req, res) => {
 exports.updateById = async (req, res) => {
 	try {
 		const payloadUserId = req.payload.userId;
-		const paramsShopId = req.body.paramsShopId;
-
+		const paramsShopId = req.params.paramsShopId;
 		const paramsProductId = req.params.paramsProductId;
 
 		req.body = trimObject(req.body);
 
 		const {
-			productName,
 			productDescription,
 			productQuantity,
 			productUnits,
@@ -313,22 +311,68 @@ exports.updateById = async (req, res) => {
 			shopId: ObjectId(paramsShopId)
 		};
 
+		const shopInfo = await Shop.findOne({
+			_id: new ObjectId(paramsShopId)
+		});
+
 		const update = {
-			productName,
 			productDescription,
 			productQuantity,
 			productUnits,
 			priceMrp,
 			priceSelling,
 
-			imageList
+			imageList,
+
+			keywordIndex: '',
+
+			shopInfo: {
+				geolocation: shopInfo.geolocation,
+
+				shopDescription: shopInfo.shopDescription,
+				addressFull: shopInfo.addressFull,
+
+				countryName: shopInfo.countryName,
+				stateName: shopInfo.stateName,
+				cityName: shopInfo.cityName,
+				localityName: shopInfo.localityName,
+
+				googleMapEmbedLink: shopInfo.googleMapEmbedLink,
+
+				phoneNumber: shopInfo.phoneNumber,
+				whatsappNumber: shopInfo.whatsappNumber,
+
+				uniqueUrl: shopInfo.uniqueUrl,
+
+				shopName: shopInfo.shopName,
+			}
 		};
 
-		// TODO: When updating product, even update shop info
+		try {
+			update.keywordIndex = getKeywordIndex([
+				update.productName,
+				update.productDescription,
+				update.productUnits,
+				update.shopInfo.cityName,
+				update.shopInfo.stateName,
+				update.shopInfo.countryName,
+				update.shopInfo.localityName,
+				update.shopInfo.shopName,
+				update.shopInfo.shopDescription,
+				update.shopInfo.phoneNumber,
+				update.shopInfo.whatsappNumber,
+			]);
+		} catch (error) {
+			console.error(error);
+		}
 
-		const resultProduct = await Product.findByIdAndUpdate(match, update, {
-			new: true
-		});
+		const resultProduct = await Product.findByIdAndUpdate(
+			match,
+			update,
+			{
+				new: true
+			}
+		);
 
 		return res.status(200).json(FormatResponse.success(
 			'Success',

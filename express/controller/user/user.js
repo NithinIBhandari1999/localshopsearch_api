@@ -1,7 +1,5 @@
 const FormatResponse = require('response-format');
 
-const customInputValidations = require('../../utils/customInputValidations');
-
 // Models
 const User = require('../../models/user/User');
 
@@ -27,23 +25,13 @@ exports.getProfileInfo = async (req, res) => {
 	}
 };
 
-// TODO: Include Filter
 exports.updateProfileInfo = async (req, res) => {
 	try {
 		const { userId } = req.payload;
 
-		const filteredBody = req.body;
-
-		if (
-			customInputValidations.isInputValidLatitude(filteredBody.latitude) === '' &&
-			customInputValidations.isInputValidLongitude(filteredBody.longitude) === ''
-		) {
-			const geolocationObj = {
-				type: 'Point',
-				coordinates: [filteredBody.longitude, filteredBody.latitude],
-			};
-			filteredBody.geolocation = geolocationObj;
-		}
+		const {
+			name
+		} = req.body;
 
 		await User.updateOne(
 			{
@@ -51,7 +39,7 @@ exports.updateProfileInfo = async (req, res) => {
 			},
 			{
 				$set: {
-					...filteredBody,
+					name
 				},
 			},
 			{

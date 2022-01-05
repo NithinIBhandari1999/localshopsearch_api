@@ -1,3 +1,4 @@
+const FormatResponse = require('response-format');
 const ObjectId = require('mongoose').Types.ObjectId;
 
 // Models
@@ -12,16 +13,17 @@ const shopBelongUser = async (req, res, next) => {
         });
 
         if (!resultShop) {
-            return res.status(401).send({ message: 'Unauthorized access -> Shop does not belong' });
+            return res.status(401).json(
+                FormatResponse.unAuthorized('Unauthorized access', {})
+            );
         }
 
         next();
     } catch (error) {
-        return res.status(400).send({ message: 'Unexpected Server Error' });
+        return res.status(400).json(
+            FormatResponse.badRequest('Unexpected Server Error', {})
+        );
     }
-
-
-
 };
 
 module.exports = shopBelongUser;
