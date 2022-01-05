@@ -14,19 +14,19 @@ const getProductUniqueUrl = async (shopId, uniqueUrl) => {
 	try {
 		let tempUniqueUrl = uniqueUrl;
 
-		tempUniqueUrl = tempUniqueUrl.replaceAll('  ', ' ');
-		tempUniqueUrl = tempUniqueUrl.replaceAll('  ', ' ');
-		tempUniqueUrl = tempUniqueUrl.replaceAll('  ', ' ');
-		tempUniqueUrl = tempUniqueUrl.replaceAll('  ', ' ');
+		tempUniqueUrl = tempUniqueUrl.replace('  ', ' ');
+		tempUniqueUrl = tempUniqueUrl.replace('  ', ' ');
+		tempUniqueUrl = tempUniqueUrl.replace('  ', ' ');
+		tempUniqueUrl = tempUniqueUrl.replace('  ', ' ');
 
 		tempUniqueUrl = uniqueUrl.toLowerCase();
 
 		tempUniqueUrl = commonInputReplace.filterUniqueUrl(tempUniqueUrl);
 
-		tempUniqueUrl = tempUniqueUrl.replaceAll('--', '-');
-		tempUniqueUrl = tempUniqueUrl.replaceAll('--', '-');
-		tempUniqueUrl = tempUniqueUrl.replaceAll('--', '-');
-		tempUniqueUrl = tempUniqueUrl.replaceAll('--', '-');
+		tempUniqueUrl = tempUniqueUrl.replace('--', '-');
+		tempUniqueUrl = tempUniqueUrl.replace('--', '-');
+		tempUniqueUrl = tempUniqueUrl.replace('--', '-');
+		tempUniqueUrl = tempUniqueUrl.replace('--', '-');
 
 		const result = await Product.countDocuments({
 			shopId: new ObjectId(shopId),
@@ -61,11 +61,11 @@ const getKeywordIndex = (keywordArray) => {
 
 		keywordIndex = keywordIndex.toLowerCase();
 
-		keywordIndex = keywordIndex.replaceAll('.', ' ');
+		keywordIndex = keywordIndex.replace('.', ' ');
 
-		keywordIndex = keywordIndex.replaceAll('  ', ' ');
-		keywordIndex = keywordIndex.replaceAll('  ', ' ');
-		keywordIndex = keywordIndex.replaceAll('  ', ' ');
+		keywordIndex = keywordIndex.replace('  ', ' ');
+		keywordIndex = keywordIndex.replace('  ', ' ');
+		keywordIndex = keywordIndex.replace('  ', ' ');
 
 		let keywordIndexArray = keywordIndex.split(' ');
 		const keywordIndexNewArray = keywordIndexArray.filter((elem, pos) => {

@@ -66,7 +66,7 @@ const inputReplaceText = (
 
 const filterUniqueUrl = uniqueUrl => {
     let tempValue = uniqueUrl;
-    tempValue = tempValue.replaceAll(' ', '-').toLowerCase();
+    tempValue = tempValue.replace(' ', '-').toLowerCase();
 
     tempValue = inputReplaceText(tempValue, true, false, true, [45]);
 

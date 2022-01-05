@@ -41,19 +41,19 @@ const getShopUniqueUrl = async (uniqueUrl) => {
 	try {
 		let tempUniqueUrl = uniqueUrl;
 
-		tempUniqueUrl = tempUniqueUrl.replaceAll('  ', ' ');
-		tempUniqueUrl = tempUniqueUrl.replaceAll('  ', ' ');
-		tempUniqueUrl = tempUniqueUrl.replaceAll('  ', ' ');
-		tempUniqueUrl = tempUniqueUrl.replaceAll('  ', ' ');
+		tempUniqueUrl = tempUniqueUrl.replace('  ', ' ');
+		tempUniqueUrl = tempUniqueUrl.replace('  ', ' ');
+		tempUniqueUrl = tempUniqueUrl.replace('  ', ' ');
+		tempUniqueUrl = tempUniqueUrl.replace('  ', ' ');
 
 		tempUniqueUrl = uniqueUrl.toLowerCase();
 
 		tempUniqueUrl = commonInputReplace.filterUniqueUrl(tempUniqueUrl);
 
-		tempUniqueUrl = tempUniqueUrl.replaceAll('--', '-');
-		tempUniqueUrl = tempUniqueUrl.replaceAll('--', '-');
-		tempUniqueUrl = tempUniqueUrl.replaceAll('--', '-');
-		tempUniqueUrl = tempUniqueUrl.replaceAll('--', '-');
+		tempUniqueUrl = tempUniqueUrl.replace('--', '-');
+		tempUniqueUrl = tempUniqueUrl.replace('--', '-');
+		tempUniqueUrl = tempUniqueUrl.replace('--', '-');
+		tempUniqueUrl = tempUniqueUrl.replace('--', '-');
 
 		const result = await Shop.countDocuments({
 			uniqueUrl: new RegExp(tempUniqueUrl, 'i')
