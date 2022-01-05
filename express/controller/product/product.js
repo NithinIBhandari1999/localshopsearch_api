@@ -201,6 +201,10 @@ exports.insertOne = async (req, res) => {
 			console.error(error);
 		}
 
+		console.log({
+			keywordIndex: insert.keywordIndex
+		})
+
 		const newProduct = await Product.create(insert);
 
 		return res.status(200).json(FormatResponse.success(
