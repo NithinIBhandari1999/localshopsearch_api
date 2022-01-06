@@ -12,6 +12,8 @@ const app = express();
 const router = express.Router();
 const connectDB = require('../express/config/db');
 
+require('../express/routes/test/testReg');
+
 app.use(function (req, res, next) {
     res.setHeader(
         'Access-Control-Allow-Headers',
