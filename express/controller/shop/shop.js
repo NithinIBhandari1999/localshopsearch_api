@@ -2,7 +2,7 @@ const FormatResponse = require('response-format');
 
 const ObjectId = require('mongoose').Types.ObjectId;
 
-const { trimObject } = require('../../utils/commonFunction');
+const { trimObject, replaceAll } = require('../../utils/commonFunction');
 
 const customInputValidations = require('../../utils/customInputValidations');
 const commonInputReplace = require('../../utils/commonInputReplace');
@@ -41,19 +41,19 @@ const getShopUniqueUrl = async (uniqueUrl) => {
 	try {
 		let tempUniqueUrl = uniqueUrl;
 
-		tempUniqueUrl = tempUniqueUrl.replace('  ', ' ');
-		tempUniqueUrl = tempUniqueUrl.replace('  ', ' ');
-		tempUniqueUrl = tempUniqueUrl.replace('  ', ' ');
-		tempUniqueUrl = tempUniqueUrl.replace('  ', ' ');
+		tempUniqueUrl = replaceAll(tempUniqueUrl, '  ', ' ');
+		tempUniqueUrl = replaceAll(tempUniqueUrl, '  ', ' ');
+		tempUniqueUrl = replaceAll(tempUniqueUrl, '  ', ' ');
+		tempUniqueUrl = replaceAll(tempUniqueUrl, '  ', ' ');
 
 		tempUniqueUrl = uniqueUrl.toLowerCase();
 
 		tempUniqueUrl = commonInputReplace.filterUniqueUrl(tempUniqueUrl);
 
-		tempUniqueUrl = tempUniqueUrl.replace('--', '-');
-		tempUniqueUrl = tempUniqueUrl.replace('--', '-');
-		tempUniqueUrl = tempUniqueUrl.replace('--', '-');
-		tempUniqueUrl = tempUniqueUrl.replace('--', '-');
+		tempUniqueUrl = replaceAll(tempUniqueUrl, '--', '-');
+		tempUniqueUrl = replaceAll(tempUniqueUrl, '--', '-');
+		tempUniqueUrl = replaceAll(tempUniqueUrl, '--', '-');
+		tempUniqueUrl = replaceAll(tempUniqueUrl, '--', '-');
 
 		const result = await Shop.countDocuments({
 			uniqueUrl: new RegExp(tempUniqueUrl, 'i')
@@ -204,6 +204,11 @@ exports.deleteById = async (req, res) => {
 		if (resultShop.deletedCount !== 1) {
 			return res.status(400).json(FormatResponse.badRequest('Shop does not exist.', {}));
 		}
+
+		await Product.deleteMany({
+			userId: ObjectId(payloadUserId),
+			shopId: ObjectId(paramsShopId),
+		});
 
 		return res.status(200).json(FormatResponse.success(
 			'Success',

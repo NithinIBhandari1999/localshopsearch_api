@@ -2,7 +2,7 @@ const FormatResponse = require('response-format');
 
 const ObjectId = require('mongoose').Types.ObjectId;
 
-const { trimObject } = require('../../utils/commonFunction');
+const { trimObject, replaceAll } = require('../../utils/commonFunction');
 
 const commonInputReplace = require('../../utils/commonInputReplace');
 
@@ -14,19 +14,19 @@ const getProductUniqueUrl = async (shopId, uniqueUrl) => {
 	try {
 		let tempUniqueUrl = uniqueUrl;
 
-		tempUniqueUrl = tempUniqueUrl.replace('  ', ' ');
-		tempUniqueUrl = tempUniqueUrl.replace('  ', ' ');
-		tempUniqueUrl = tempUniqueUrl.replace('  ', ' ');
-		tempUniqueUrl = tempUniqueUrl.replace('  ', ' ');
+		tempUniqueUrl = replaceAll(tempUniqueUrl,'  ', ' ');
+		tempUniqueUrl = replaceAll(tempUniqueUrl,'  ', ' ');
+		tempUniqueUrl = replaceAll(tempUniqueUrl,'  ', ' ');
+		tempUniqueUrl = replaceAll(tempUniqueUrl,'  ', ' ');
 
 		tempUniqueUrl = uniqueUrl.toLowerCase();
 
 		tempUniqueUrl = commonInputReplace.filterUniqueUrl(tempUniqueUrl);
 
-		tempUniqueUrl = tempUniqueUrl.replace('--', '-');
-		tempUniqueUrl = tempUniqueUrl.replace('--', '-');
-		tempUniqueUrl = tempUniqueUrl.replace('--', '-');
-		tempUniqueUrl = tempUniqueUrl.replace('--', '-');
+		tempUniqueUrl = replaceAll(tempUniqueUrl,'--', '-');
+		tempUniqueUrl = replaceAll(tempUniqueUrl,'--', '-');
+		tempUniqueUrl = replaceAll(tempUniqueUrl,'--', '-');
+		tempUniqueUrl = replaceAll(tempUniqueUrl,'--', '-');
 
 		const result = await Product.countDocuments({
 			shopId: new ObjectId(shopId),
@@ -61,11 +61,11 @@ const getKeywordIndex = (keywordArray) => {
 
 		keywordIndex = keywordIndex.toLowerCase();
 
-		keywordIndex = keywordIndex.replace('.', ' ');
+		keywordIndex = replaceAll(keywordIndex, '.', ' ');
 
-		keywordIndex = keywordIndex.replace('  ', ' ');
-		keywordIndex = keywordIndex.replace('  ', ' ');
-		keywordIndex = keywordIndex.replace('  ', ' ');
+		keywordIndex = replaceAll(keywordIndex, '  ', ' ');
+		keywordIndex = replaceAll(keywordIndex, '  ', ' ');
+		keywordIndex = replaceAll(keywordIndex, '  ', ' ');
 
 		let keywordIndexArray = keywordIndex.split(' ');
 		const keywordIndexNewArray = keywordIndexArray.filter((elem, pos) => {

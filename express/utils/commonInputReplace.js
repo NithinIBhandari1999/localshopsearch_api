@@ -1,5 +1,7 @@
 /* eslint-disable camelcase */
 
+const { replaceAll } = require('../utils/commonFunction');
+
 const isInputValidGt0 = input => {
     if (input === undefined || input === null) {
         return 'Required Field';
@@ -66,7 +68,8 @@ const inputReplaceText = (
 
 const filterUniqueUrl = uniqueUrl => {
     let tempValue = uniqueUrl;
-    tempValue = tempValue.replace(' ', '-').toLowerCase();
+
+    tempValue = replaceAll(tempValue, ' ', '-').toLowerCase();
 
     tempValue = inputReplaceText(tempValue, true, false, true, [45]);
 
