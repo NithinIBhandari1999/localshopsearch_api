@@ -1,9 +1,13 @@
 const FormatResponse = require('response-format');
+const ObjectId = require('mongoose').Types.ObjectId;
+const { DateTime } = require('luxon');
 
 const Shop = require('../../models/shop/Shop');
+const ShopStatistics = require('../../models/shop/ShopStatistics');
 const Product = require('../../models/product/Product');
 
 const customInputValidations = require('../../utils/customInputValidations');
+const { getIpAddress } = require('../../utils/commonFunction');
 
 const getAggregateStageSearch = (polygonCoords, query) => {
 	try {
@@ -151,6 +155,8 @@ exports.getShopInfoById = async (req, res) => {
 	try {
 		const { uniqueUrl } = req.params;
 
+		const userId = req?.payload?.userId;
+
 		const resultShopInfo = await Shop.aggregate([
 			{
 				$match: {
@@ -169,6 +175,34 @@ exports.getShopInfoById = async (req, res) => {
 
 		if (resultShopInfo.length === 0) {
 			return res.status(400).json(FormatResponse.badRequest('Shop does not exist.', {}));
+		}
+
+		try {
+			let userIdInsert = new ObjectId('000000000000000000000000');
+			if (customInputValidations.isInputValidMongodbId(userId) === '') {
+				userIdInsert = new ObjectId(userId);
+			}
+			const ipAddress = getIpAddress(req);
+			console.log({
+				shopId: ObjectId(resultShopInfo._id),
+				userId: ObjectId(userIdInsert),
+				ipAddress
+			});
+			const createdOnYyyyMmDd = DateTime.now().setZone('Asia/Calcutta').toFormat('yyyy-MM-dd');
+			await ShopStatistics.create({
+				shopId: resultShopInfo[0]._id,
+				userId: userIdInsert,
+				ipAddress,
+
+				createdOnYyyyMmDd
+			});
+		} catch (error) {
+			if(error.code === 11000){
+				console.log('Dublicate Entry');
+			} else {
+				console.log(error);
+			}
+			
 		}
 
 		return res.status(200).json(

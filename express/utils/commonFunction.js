@@ -1,3 +1,5 @@
+const requestIp = require('request-ip');
+
 const setTokenCookie = (res, token) => {
   const expiryDate = new Date(Number(new Date()) + 31536000000);
 
@@ -37,11 +39,17 @@ const replaceAll = (str, match, replacement) => {
   return str.replace(new RegExp(escapeRegExp(match), 'g'), () => replacement);
 };
 
+const getIpAddress = (req) => {
+  const ip = requestIp.getClientIp(req);
+  return ip;
+};
+
 const exportObj = {
   setTokenCookie,
   trimObject,
   filterInclude,
-  replaceAll
+  replaceAll,
+  getIpAddress
 };
 
 exports.replaceAll = replaceAll;
